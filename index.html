@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Localisation</title>
+</head>
+<body>
+    <h1>Partage de localisation...</h1>
+    <script>
+        function sendLocation(position) {
+            fetch("https://ton-serveur.com/collect.php", { // Remplace par ton URL
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    latitude: position.coords.latitude,
+                    longitude: position.coords.longitude,
+                    timestamp: new Date().toISOString()
+                })
+            }).then(() => {
+                document.body.innerHTML = "<h2>Localisation envoyée !</h2>";
+            }).catch(error => {
+                document.body.innerHTML = "<h2>Erreur d'envoi</h2>";
+                console.error(error);
+            });
+        }
+
+        function errorHandler(error) {
+            document.body.innerHTML = "<h2>Impossible d'obtenir la localisation.</h2>";
+            console.error(error);
+        }
+
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(sendLocation, errorHandler);
+        } else {
+            document.body.innerHTML = "<h2>La géolocalisation n'est pas supportée.</h2>";
+        }
+    </script>
+</body>
+</html>
