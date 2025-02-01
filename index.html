@@ -8,9 +8,11 @@
 <body>
     <h1>Partage de localisation...</h1>
     <script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<script>
 function sendLocation(position) {
     let scriptURL = "https://script.google.com/macros/s/AKfycbxw3-NM4xxX9YbF5we40n4E9ka_3L1G-z7xpuVUbuOPTanhg3QyNZTy-LQNGe1_z6KI/exec"
-    let proxyURL = "https://corsproxy.io/?"; // Proxy pour contourner CORS
 
     let data = {
         latitude: position.coords.latitude.toFixed(6),
@@ -20,21 +22,24 @@ function sendLocation(position) {
 
     console.log("Données envoyées :", data);
 
-    fetch(proxyURL + encodeURIComponent(scriptURL), {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(data)
-    })
-    .then(response => response.json())
-    .then(data => {
-        console.log("Réponse du serveur :", data);
-        document.body.innerHTML = "<h2>Réponse reçue : " + data.message + "</h2>";
-    })
-    .catch(error => {
-        console.error("Erreur :", error);
-        document.body.innerHTML = "<h2>Erreur d'envoi</h2>";
+    $.ajax({
+        url: scriptURL,
+        type: "POST",
+        data: data,
+        dataType: "jsonp",
+        jsonp: "callback",
+        success: function(response) {
+            console.log("Réponse du serveur :", response);
+            document.body.innerHTML = "<h2>Réponse reçue : " + response.message + "</h2>";
+        },
+        error: function(error) {
+            console.error("Erreur :", error);
+            document.body.innerHTML = "<h2>Erreur d'envoi</h2>";
+        }
     });
 }
+</script>
+
 
 
 
