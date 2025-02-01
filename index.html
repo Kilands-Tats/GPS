@@ -8,26 +8,26 @@
 <body>
     <h1>Partage de localisation...</h1>
     <script>
-  function sendLocation(position) {
-    let url = "https://script.google.com/macros/s/AKfycbxw3-NM4xxX9YbF5we40n4E9ka_3L1G-z7xpuVUbuOPTanhg3QyNZTy-LQNGe1_z6KI/exec"
+function sendLocation(position) {
+    let url = "https://script.google.com/macros/s/TON_NOUVEL_ID/exec"; // Remplace avec ton ID
 
     let data = {
-        latitude: position.coords.latitude.toFixed(6), // Limite les décimales à 6
+        latitude: position.coords.latitude.toFixed(6),
         longitude: position.coords.longitude.toFixed(6),
         timestamp: new Date().toISOString()
     };
 
-    console.log("Données envoyées :", data); // 🔍 Vérification console
+    console.log("Données envoyées :", data);
 
     fetch(url, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(data)
     })
-    .then(response => response.text())
+    .then(response => response.json())
     .then(data => {
         console.log("Réponse du serveur :", data);
-        document.body.innerHTML = "<h2>Réponse reçue : " + data + "</h2>";
+        document.body.innerHTML = "<h2>Réponse reçue : " + data.message + "</h2>";
     })
     .catch(error => {
         console.error("Erreur :", error);
