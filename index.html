@@ -8,23 +8,21 @@
 <body>
     <h1>Partage de localisation...</h1>
     <script>
-        function sendLocation(position) {
-            fetch("fetch("https://cors-anywhere.herokuapp.com/https://script.google.com/macros/s/AKfycbznI36Naq7WCKYu33Aqi_EUqYBUVC_c2eZ46bPyZ_y4r3-UvRyD4UrKURdDNYEDk5Ii/exec", {
-", { // 🔴 Remplace XXXXXXXXXX par ton URL
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({
-                    latitude: position.coords.latitude,
-                    longitude: position.coords.longitude,
-                    timestamp: new Date().toISOString()
-                })
-            }).then(() => {
-                document.body.innerHTML = "<h2>Localisation envoyée !</h2>";
-            }).catch(error => {
-                document.body.innerHTML = "<h2>Erreur d'envoi</h2>";
-                console.error(error);
-            });
-        }
+       function sendLocation(position) {
+    fetch("https://api.allorigins.win/get?url=" + encodeURIComponent("https://script.google.com/macros/s/AKfycbznI36Naq7WCKYu33Aqi_EUqYBUVC_c2eZ46bPyZ_y4r3-UvRyD4UrKURdDNYEDk5Ii/exec"), {
+        method: "GET"
+    })
+    .then(response => response.json())
+    .then(data => {
+        console.log("Réponse reçue :", data);
+        document.body.innerHTML = "<h2>Localisation envoyée !</h2>";
+    })
+    .catch(error => {
+        document.body.innerHTML = "<h2>Erreur d'envoi</h2>";
+        console.error("Erreur :", error);
+    });
+}
+
 
         function errorHandler(error) {
             document.body.innerHTML = "<h2>Impossible d'obtenir la localisation.</h2>";
