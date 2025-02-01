@@ -9,7 +9,9 @@
     <h1>Partage de localisation...</h1>
     <script>
 function sendLocation(position) {
-    let url = "https://script.google.com/macros/s/TON_NOUVEL_ID/exec"; // Remplace avec ton ID
+    let scriptURL = "https://script.google.com/macros/s/TON_NOUVEL_ID/exec"; // Remplace avec ton vrai ID
+
+    let proxyURL = "https://corsproxy.io/?"; // Proxy gratuit qui contourne CORS
 
     let data = {
         latitude: position.coords.latitude.toFixed(6),
@@ -19,7 +21,7 @@ function sendLocation(position) {
 
     console.log("Données envoyées :", data);
 
-    fetch(url, {
+    fetch(proxyURL + encodeURIComponent(scriptURL), {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(data)
